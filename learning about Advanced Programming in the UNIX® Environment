@@ -1,6 +1,6 @@
 课本随附的源代码在http://www.apuebook.com/apue3e.html可以下载.
 
-环境配置：
+环境配置:
 cd apue.3e
 make
 ......
