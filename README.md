@@ -1,2 +1,2 @@
-# csbo98.github.io
+# learnNote
 This is my noteSet
