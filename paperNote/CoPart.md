@@ -6,4 +6,12 @@
 
 ## core idea
 
+1. the idea is 
+
+2. the metrics this paper use are LLC access、LLC miss、IPS. 
+
 ## tools and benchamrk
+
+1. this paper use PAPI interface to collect performance monitor counters, another usually used tool is Perfmon, investigate those two tools for our own usage.
+
+2.  
