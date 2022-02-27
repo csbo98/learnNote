@@ -1,0 +1,3 @@
+# cookie
+
+cookie就是一个server打在client上的标签，主要是为了保持登陆状态等。那么浏览器的使用过程中，如果遇到一些关于网络登陆的状态问题，首选可以考虑是cookie的问题，可是尝试清除cookie或者更改cookie设置。
