@@ -21,4 +21,4 @@ Python中的subprocess模块创建子进程的思路和“fork-exec”相似，�
 
 ## 内置命令
 
-shell内置命令都是在运行shell进程的内部执行的。
+shell内置命令都是在运行shell进程的内部执行的,因为内置命令是shell程序的一部分。

@@ -38,7 +38,7 @@ foo.z = "python" # 给实例foo增加一个实例属性，类不会收纳这个�
 
 ## 命名空间
 
-![命名空间示意图](imageSet/pythonNameSpace.png)
+![命名空间示意图](../imageSet/pythonNameSpace.png)
 
 python中分为以下几种命名空间：
 
