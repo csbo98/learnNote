@@ -73,3 +73,27 @@ for line in f:
 
 就是指按照某种顺序逐个访问列表中的每一项。
 
+## 函数也是对象
+
+在python中，函数也是对象，就像其他常见的变量对象一样，比如str、dict等。当定义一个函数时，函数的名字也是一个变量，它像一个标签一样贴在这个函数上，函数定义作为一个存在于内存中某处的对象，变量名应该引用的也是它的入口地址。Python中比较tricky的是可以在一个函数里面定义函数，并且返回值可以是一个函数，这一点C++和Go中应该都有。
+
+在Python中，应该是变量存在作用域，对象不存在作用域的限制？
+
+```python
+
+# python中一个函数作为参数传递的例子，因为变量没有类型，所以在Python中将函数
+# 作为参数传递非常简单
+def hi():
+    return "hi yasoob!"
+ 
+def doSomethingBeforeHi(func):
+    print("I am doing some boring work before executing hi()")
+    print(func())
+ 
+doSomethingBeforeHi(hi)
+#outputs:I am doing some boring work before executing hi()
+#        hi yasoob!
+```
+
+函数相关的内容有一个比较难以理解的点是装饰器——就是一个改变其他函数功能的函数。装饰器通过接收一个函数func作为参数，将该函数func在装饰器内部定义的wrap函数里面调用，然后将warp返回给func来改变func的功能。
+[一篇装饰器的入门博客](https://www.runoob.com/w3cnote/python-func-decorators.html)
