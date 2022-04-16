@@ -97,3 +97,7 @@ doSomethingBeforeHi(hi)
 
 函数相关的内容有一个比较难以理解的点是装饰器——就是一个改变其他函数功能的函数。装饰器通过接收一个函数func作为参数，将该函数func在装饰器内部定义的wrap函数里面调用，然后将warp返回给func来改变func的功能。
 [一篇装饰器的入门博客](https://www.runoob.com/w3cnote/python-func-decorators.html)
+
+## 模块
+
+模块本质上就是一个扩展名为.py的Python程序。
