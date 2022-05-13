@@ -1,3 +1,0 @@
-# Git
-
-在git中每一个commit都与一个hash值关联，可以理解为每一个commit都有一个指针指向它；所谓的main、master以及别的分支名等都只是对某个commit的指针的引用。
