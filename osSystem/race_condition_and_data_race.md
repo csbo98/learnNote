@@ -8,7 +8,7 @@ data race出现的三个条件：
 
 1. 同一个进程里面的两个或者多个线程并发的访问同一个内存位置(多核时是并行的)；
 2. 至少有一个访问是写操作；
-3. 这些线程不使用任何任何的互斥锁来控制他们对那个内存位置的访问。21
+3. 这些线程不使用任何任何的互斥锁来控制他们对那个内存位置的访问。
 
 [race condition](https://stackoverflow.com/questions/11276259/are-data-races-and-race-condition-actually-the-same-thing-in-context-of-conc)：stackoverflow上这个问题对race condition和data race的解释比较清楚。
 

@@ -26,3 +26,5 @@ shell内置命令都是在运行shell进程的内部执行的,因为内置命令
 ## shell脚本中调用另一脚本的三种方式与区别
 
 [shell脚本调用另一脚本](https://www.jianshu.com/p/54016c51ed94)
+
+在shell中，shell脚本本身也可以作为一个进程，也就可以通过&在后台执行。
