@@ -120,3 +120,79 @@ C\C++语言中都可以插入汇编代码用于一些特殊的目的。阅读代
 1. [C内敛汇编，可以了解纯汇编指令和可以与C变量建立关联的汇编指令的基本格式](https://akaedu.github.io/book/ch19s05.html)
 2. [Linux Assembly，介绍了Intel汇编语法和AT&T的语法区别](http://www.linuxassembly.org/linasm.html#Command_Line_Arguments)
 3. [这篇博客讲了基本汇编语法、扩展汇编语法和一些小例子帮助理解](http://www.delorie.com/djgpp/doc/brennan/brennan_att_inline_djgpp.html)
+
+## C++类静态成员变量
+
+静态成员变量可以用来实现多个对象共享数据的目标，用关键字static修饰，静态成员变量属于类而不属于某个具体的对象。
+
+static成员变量**必须**在类声明的外部初始化，具体形式为：
+```type class::name = value; // 静态成员变量初始化时不能再加static```
+
+static成员变量的内存既不是在声明类时分配，也不是在创建对象时分配，而是**在初始化时分配**，也即没有在类外初始化的static成员变量不能使用。
+
+static成员不占用对象的内存，而是在所有对象之外开辟内存，即使不创建对象也可以访问。static成员变量和普通的static变量一样，都在地址空间的全局数据区分配内存，**到程序结束时才释放**，也就是说，static成员变量不会随着对象的创建而分配内存，也不随着对象的销毁而释放内存。
+
+```C++
+
+#include <iostream>
+using namespace std;
+
+class Student{
+public:
+    Student(char *name, int age, float score);
+    void show();
+public:  //声明静态成员函数
+    static int getTotal();
+    static float getPoints();
+private:
+    static int m_total;  //总人数
+    static float m_points;  //总成绩
+private:
+    char *m_name;
+    int m_age;
+    float m_score;
+};
+
+int Student::m_total = 0;
+float Student::m_points = 0.0;
+
+Student::Student(char *name, int age, float score): m_name(name), m_age(age), m_score(score){
+    m_total++;
+    m_points += score;
+}
+void Student::show(){
+    cout<<m_name<<"的年龄是"<<m_age<<"，成绩是"<<m_score<<endl;
+}
+//定义静态成员函数
+int Student::getTotal(){
+    return m_total;
+}
+float Student::getPoints(){
+    return m_points;
+}
+
+int main(){
+    (new Student("小明", 15, 90.6)) -> show();
+    (new Student("李磊", 16, 80.5)) -> show();
+    (new Student("张华", 16, 99.0)) -> show();
+    (new Student("王康", 14, 60.8)) -> show();
+
+    int total = Student::getTotal();
+    float points = Student::getPoints();
+    cout<<"当前共有"<<total<<"名学生，总成绩是"<<points<<"，平均分是"<<points/total<<endl;
+
+    return 0;
+}
+```
+
+## C++静态成员函数
+
+静态成员函数只能访问静态成员（普通成员函数可以访问所有的成员）。静态成员函数与普通成员函数的根本区别在于：普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数），**没有this指针，就不知道指向那个对象，没法访问对象的成员变量**。
+
+编译器在编译一个普通成员函数时，会隐式地增加一个形参 this，并把当前对象的地址赋值给 this，所以普通成员函数只能在创建对象后通过对象来调用，因为它需要当前对象的地址。而静态成员函数可以通过类来直接调用，编译器不会为它增加形参 this，它不需要当前对象的地址，所以不管有没有创建对象，都可以调用静态成员函数。
+
+和静态成员变量类似，静态成员函数在声明时要加 static，在定义时不能加 static。
+
+## C\C++中内存分配
+
+malloc和new申请的内存必须要被对应的free和delete释放，不管是在函数内部申请的内存还是在函数外部申请的内存都是需要释放的。函数内部申请的内存不会因为函数返回就被释放。

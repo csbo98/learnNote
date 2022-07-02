@@ -10,7 +10,7 @@
 
 ## 编译过程
 
-首先设置config.sh和makefile.config，configs.sh中的数据目录配置成数据集所在的目录
+首先设置config.sh和makefile.config，configs.sh中的数据目录配置成数据集所在l的目录
 然后编译harness,使用harness里面的build.sh编译
 
 harness可能需要使用高版本g++编译，不能使用低于gcc5的版本
