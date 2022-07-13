@@ -11,7 +11,7 @@ vector<unsigned> randVec() {
     // 随机数引擎从一个新的位置开始生成随机数。
     default_random_engine e(time(nullptr));
     uniform_int_distribution<unsigned> u(0,9);
-
+    
     vector<unsigned> ret;
 
     for(int i = 0; i < 20; i++) {
