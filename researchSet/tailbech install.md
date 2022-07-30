@@ -10,20 +10,20 @@
 
 ## 编译过程
 
-首先设置config.sh和makefile.config，configs.sh中的数据目录配置成数据集所在l的目录
+首先设置config.sh和makefile.config，configs.sh中的数据目录配置成数据集所在的目录
 然后编译harness,使用harness里面的build.sh编译
 
 harness可能需要使用高版本g++编译，不能使用低于gcc5的版本
 
 ## tailbench编译记录
 
-x86&arm编译成功: xipian sphinx specjbb
+x86&arm编译成功: xipian sphinx  
 
 x86编译成功：masstree silo img-dnn
 
-arm运行成功：specjbb sphinx
+arm运行成功：sphinx xapian
 
-x86运行成功：masstree img-dnn silo sphinx specjbb
+x86运行成功：masstree img-dnn silo sphinx
 
 ### xapian
 
