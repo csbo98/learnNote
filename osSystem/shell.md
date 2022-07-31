@@ -30,3 +30,50 @@ shell内置命令都是在运行shell进程的内部执行的,因为内置命令
 在shell中，shell脚本本身也可以作为一个进程，也就可以通过&在后台执行。
 
 [可以利用ssh在远程主机上执行命令](https://www.cnblogs.com/sparkdev/p/6842805.html)
+
+## ssh
+
+主要用于登陆远程主机和执行命令(可以通过-J选项实现多级跳转或者通过端口转发实现多级跳转)，也可以提供一个安全的连接通道(比如把本地与远程主机的mysql连接放入ssh安全通道中，这可以通过-L选项提供的本地端口转发来实现)，也可以用于绕过防火墙访问别的端口(比如实验室的机器只开放了8401端口，那么访问机器上的其他端口也可以使用-L选项做本地转发来实现，可以在实验室机器上的其他端口搭建服务)
+
+> It is intended to provide secure encrypted communications between two untrusted hosts over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can also be forwarded over the secure channel.
+
+本地端口转发定义：
+> Specifies that connections to the given TCP port or Unix socket on the local (client) host are to be forwarded to the given host and port, or Unix socket, on the remote side.  This works by allocating a socket to listen to either a **TCP port** on the local side, optionally bound to the specified bind_address, or to a Unix socket.  Whenever a connection is made to the local port or socket, **the connection is forwarded over the secure channel**, and **a connection is made to either host port hostport, or the Unix socket remote_socket, from the remote machine**
+
+要实现端口转发，**就需要先建立一条ssh连接(因为需要通过这条ssh连接来转发数据)，可以建立一个到本地的ssh连接也可以建立一个到某台远程机器上的ssh连接**，而且需要ssh连接的server能够与需要实现端口转发的机器直接互相通信，因为这一段通信不走ssh，而是一个传输层连接。在建立ssh连接时可以使用-J选项做跳转。
+
+-J选项的最后一段通信应该都是通过建立TCP连接来实现的；
+
+-R选项实现远程端口转发(通过创建一个socket监听远程主机上的TCP Port或者UNIX socket实现)：把到远程server上指定端口的连接通过ssh tunnel全部转发到本地(这个本地是指ssh client)，然后建立一个从local machine到指定的host:hostport的连接。这个远程端口转发可以实现任何内网穿透，不需要对局域网的IP地址和路由有任何要求，但似乎不太稳定，应该需要autossh来帮助实现穿透内网的稳定性。
+
+[讲解本地转发和远程转发比较好的一篇博客](https://www.zsythink.net/archives/2450)
+
+[基于ssh的三种端口转发都有讲的一篇博客](https://www.cnblogs.com/f-ck-need-u/p/10482832.html)
+
+SSH不能直接实现UDP转发，所以需要在ssh client端把UDP转为TCP，然后在sshd server端把TCP转为UDP，再去请求服务。可以使用socat工具来实现UDP与TCP之间的互相转换[ssh实现UDP端口转发](https://www.cnblogs.com/wsjhk/p/11064992.html)
+
+ssh的端口转发：**端口转发转发的是传输层的数据**，传输层的数据仅仅是数据包或者二进制流，与应用无关，所以端口转发适合任何应用。
+
+以ssh来解释：
+
+```bash
+ssh -L 8401:dell-07:22 dell-01; # 建立一条到dell-01的ssh连接是必要的，因为需要通过这条ssh连接来转发数据；
+
+ssh dell-07@localhost -p 8401;
+
+```
+
+第一条命令表示把到本地端口8401的连接全部转发到dell-07上的22端口(ssh是通过在本地开启一个socket监听本地对应的端口实现的)，在dell-07上有一个sshd在监听22端口。第二条命令是ssh想要连接本地的8401端口上的sshd服务。第二条命令的ssh中除了IP和Port以外的信息(user和options等)全都是ssh的应用层信息，一部分用于设置ssh程序，一部分发送给sshd服务器，**是ssh与sshd二者在应用层通信用的，比如dell-07这个用户名就是会被转发给dell-07上监听22端口程序的内容。**
+
+## mac上启动服务命令(以sshd为例)
+
+```bash
+# 启动服务
+sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+
+# 停止服务
+sudo launchctl unload  /System/Library/LaunchDaemons/ssh.plist
+
+# 查看服务
+sudo launchctl list | grep sshd
+```
