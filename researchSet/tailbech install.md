@@ -34,7 +34,7 @@ x86运行成功：masstree img-dnn silo sphinx
 
 ### sphinx
 
-需要对动态链接文件创建软连接,需要修改Makefile在43行增加一个空格
+把动态链接文件加入到LD_LIBRARY_PATH,需要修改Makefile在43行增加一个空格
 需要的包：bison swig
 
 ### specjbb:安装成功

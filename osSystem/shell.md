@@ -38,15 +38,20 @@ shell内置命令都是在运行shell进程的内部执行的,因为内置命令
 > It is intended to provide secure encrypted communications between two untrusted hosts over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can also be forwarded over the secure channel.
 
 本地端口转发定义：
-> Specifies that connections to the given TCP port or Unix socket on the local (client) host are to be forwarded to the given host and port, or Unix socket, on the remote side.  This works by allocating a socket to listen to either a **TCP port** on the local side, optionally bound to the specified bind_address, or to a Unix socket.  Whenever a connection is made to the local port or socket, **the connection is forwarded over the secure channel**, and **a connection is made to either host port hostport, or the Unix socket remote_socket, from the remote machine**
+> Specifies that connections to the given TCP port or Unix socket on the local (client) host are to be forwarded to the given host and port, or Unix socket, on the remote side.  This works by allocating a socket to listen to either a **TCP port** on the local side, optionally bound to the specified bind_address, or to a Unix socket.  Whenever a connection is made to the local port or socket, **the connection is forwarded over the secure channel**, and **a connection is made to either host port hostport, or the Unix socket remote_socket, from the remote machine**， 到本地端口的连接一定会先通过隧道转发到远程机器上，然后远程机器再建立一条连接到最终地址，所以host可以是远程主机可以连接上的任何主机，包括127.0.0.1、192.168.0.122这样的局域网地址。
 
 要实现端口转发，**就需要先建立一条ssh连接(因为需要通过这条ssh连接来转发数据)，可以建立一个到本地的ssh连接也可以建立一个到某台远程机器上的ssh连接**，而且需要ssh连接的server能够与需要实现端口转发的机器直接互相通信，因为这一段通信不走ssh，而是一个传输层连接。在建立ssh连接时可以使用-J选项做跳转。
 
 -J选项的最后一段通信应该都是通过建立TCP连接来实现的；
 
+-D 动态端口转发主要目的是实现代理，将本地的某个端口作为ssh监听地址，ssh连接到远程可访问外网的某个机器，该机器上的sshd可以充当socks5 server，把本地的应用或者系统的代理设置为该端口，那么所有的数据都会从该代理地址发给远程sshd，它会把数据发送给最终的目的地址。隧道里面传输的是完整的应用层数据和协议，因此sshd知道应该向谁发送请求。其他两种端口转发在传输层起作用。
+
 -R选项实现远程端口转发(通过创建一个socket监听远程主机上的TCP Port或者UNIX socket实现)：把到远程server上指定端口的连接通过ssh tunnel全部转发到本地(这个本地是指ssh client)，然后建立一个从local machine到指定的host:hostport的连接。这个远程端口转发可以实现任何内网穿透，不需要对局域网的IP地址和路由有任何要求，但似乎不太稳定，应该需要autossh来帮助实现穿透内网的稳定性。
 
-[讲解本地转发和远程转发比较好的一篇博客](https://www.zsythink.net/archives/2450)
+不管是本地端口转发还是远程端口转发，都只能实现一对一的通信；而通过动态端口转发可以实现多对多的通信。
+-L和-R都是把TCP传输层的数据直接转发到对应的端口，client需要使用本地的端口；而-D并不干扰正常的通信行为，通信可以像没有使用代理一样，不需要对client的IP和Port等信息作任何改变，隧道转发的是应用层的信息。
+
+[讲解本地转发和远程转发比较好的一篇博客，它关于-g选项的解释不对，绑定非换回地址是由GateWayPorts配置选项控制的，不是-g选项](https://www.zsythink.net/archives/2450)
 
 [基于ssh的三种端口转发都有讲的一篇博客](https://www.cnblogs.com/f-ck-need-u/p/10482832.html)
 
