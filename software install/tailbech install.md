@@ -45,10 +45,6 @@ x86运行成功：masstree img-dnn silo sphinx
 在x86上需要的依赖包：autoconf automake libreadline-dev
 x86上应该是需要一条一条指令分别编译
 
-### moses
-
-安装boost应该可以，在arm上同样是安装boost
-
 ### masstree
 
 需要sudo apt install libgoogle-perftools-dev解决tcmalloc未找到的问题
@@ -62,3 +58,8 @@ silo目录下BUILD指出了需要的包,全部下载即可; arm缺其中mysql包
 
 x86下载libopencv-dev包；直接编译成功
 arm需要设置opencv.pc的路径;需要手动编译opencv3.2
+
+### moses
+
+安装boost应该可以，在arm上同样是安装boost
+
