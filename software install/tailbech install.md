@@ -1,8 +1,7 @@
 # tailbench install
 
-**解决编译错误一定要从最前面的那一个开始**
-**解决编译错误一定要从最前面的那一个开始**
-**解决编译错误一定要从最前面的那一个开始**
+大核小核、numa node中大核和小核的相对位置、核的数量(好问题)
+wrk2首先看看参数传递是否正确，参数传递正确的情况下尝试gdb调试，找到wrk2卡在哪里无法使用cpu
 
 ## 帮助链接
 
@@ -17,13 +16,13 @@ harness可能需要使用高版本g++编译，不能使用低于gcc5的版本
 
 ## tailbench编译记录
 
-x86&arm编译成功: xipian sphinx  
+x86&arm编译成功: xipian sphinx specjbb  
 
 x86编译成功：masstree silo img-dnn
 
 arm运行成功：sphinx xapian
 
-x86运行成功：masstree img-dnn silo sphinx
+x86运行成功：masstree img-dnn silo sphinx xapian
 
 ### xapian
 
@@ -39,27 +38,26 @@ x86运行成功：masstree img-dnn silo sphinx
 
 ### specjbb:安装成功
 
-
 ### shore: arm平台不支持，Unsupported platform aarch64-unknown-linux-gnu
 
 在x86上需要的依赖包：autoconf automake libreadline-dev
 x86上应该是需要一条一条指令分别编译
 
-### masstree
-
-需要sudo apt install libgoogle-perftools-dev解决tcmalloc未找到的问题
-在arm上需要搞定一个指令错误
-
 ### silo
 
-silo目录下BUILD指出了需要的包,全部下载即可; arm缺其中mysql包,替代包不能工作
+silo目录下BUILD指出了需要的包,全部下载即可;arm centos不能安装libdb++, **寻找源代码包，从源代码包编译安装,从别处寻找rpm包尝试**
+
+### masstree
+
+可以选择使用或者不使用tcmalloc
+把x86汇编改成aarch64汇编
+最终错误为：segmentation fault
 
 ### img-dnn
 
-x86下载libopencv-dev包；直接编译成功
+x86下载libopencv-dev包；编译成功
 arm需要设置opencv.pc的路径;需要手动编译opencv3.2
 
 ### moses
 
-安装boost应该可以，在arm上同样是安装boost
-
+安装boost库;;; 下一个要解决的问题是更新double-conversion库支持arm64

@@ -13,3 +13,10 @@ this paper aims to co-locate mutiple latency-critical jobs with mutiple backgrou
 parties找不到最优解的根源是「explore only one dimension (resource) at a time and change the amount in small steps for one LC job」，在这篇论文的figure 2给出的例子中解释了为什么parties会失效。
 
 BO方法是怎么把性能和配置对应起来的呢？？？给了一个当前的负载，怎么就能够给它找到合适的配置呢？？？
+
+## 阿里神龙：High-density Multi-tenant Bare-metal Cloud
+
+> 虚拟化是云计算的基础，它将物理服务器虚拟化成想要的计算单元，进而拥有最大的弹性，然而却会导致性能损耗
+神龙架构是软硬一体的虚拟化技术，把虚拟化卸载到专用芯片进行处理，并进行硬件加速IO引擎。
+
+[阿里神龙介绍](https://mp.weixin.qq.com/s/7kFTKfIPvAXqfyl4ynPlcg)
