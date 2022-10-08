@@ -31,9 +31,7 @@ RDD 上定义的函数分两种，一种是转换（transformation）函数，�
 
 跟 MapReduce 一样，Spark 也是对大数据进行分片计算，Spark 分布式计算的数据分片、任务调度都是以 RDD 为单位展开的，每个 RDD 分片都会分配到一个执行进程去处理。
 
-
 ## 参考
 
 1. [我们并没有觉得MapReduce速度慢，直到Spark出现](https://time.geekbang.org/column/article/69822)
 2. [Spark总体执行流程](https://blog.knoldus.com/understanding-the-working-of-spark-driver-and-executor/)
-   
