@@ -1,8 +1,5 @@
 # tailbench install
 
-大核小核、numa node中大核和小核的相对位置、核的数量(好问题)
-wrk2首先看看参数传递是否正确，参数传递正确的情况下尝试gdb调试，找到wrk2卡在哪里无法使用cpu
-
 ## 帮助链接
 
 [一个避坑指南](https://github.com/deltavoid/Tailbench)
@@ -36,7 +33,7 @@ x86运行成功：masstree img-dnn silo sphinx xapian
 把动态链接文件加入到LD_LIBRARY_PATH,需要修改Makefile在43行增加一个空格
 需要的包：bison swig
 
-### specjbb:安装成功
+### specjbb:无版权，无法使用
 
 ### shore: arm平台不支持，Unsupported platform aarch64-unknown-linux-gnu
 

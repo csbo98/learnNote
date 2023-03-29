@@ -1,0 +1,1 @@
+[可以使用slect实现比sleep更准确的定时器](https://www.cnblogs.com/jjdiaries/p/3404380.html)
